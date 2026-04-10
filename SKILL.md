@@ -17,7 +17,7 @@ one-page PDF resumes using reportlab — not to teach resume writing.
 
 ## Core Principles — 核心原则
 
-1. **One page, no exceptions** — Everything fits on a single A4 page
+1. **One page, no exceptions** — Everything fits on a single A4 page. Scope: 1-page industry resumes only. Academic multi-page CVs are out of scope.
 2. **Content first** — Gather all info before touching layout
 3. **Font hierarchy matters** — Bold titles, light body, italic dates
 4. **Pixel-perfect** — Iterate until Y ≈ bottom margin (within 10pt)
