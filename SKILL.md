@@ -146,7 +146,7 @@ Read `references/reportlab-en.md` for EN PDF generation (Helvetica fonts).
 
 Each resume generator is a standalone Python script:
 - `gen_cn_pdf.py` — CN version
-- `gen_resume_pdf.py` — EN version
+- `gen_en_pdf.py` — EN version
 
 Both follow the same class structure:
 
@@ -178,6 +178,8 @@ class R:
 ---
 
 ## Phase 4: Layout Tuning — 排版微调
+
+Read `references/layout-tuning.md` for the full tuning algorithm and lessons learned.
 
 **Goal: Y at end ≈ bottom margin (within 5-15pt)**
 

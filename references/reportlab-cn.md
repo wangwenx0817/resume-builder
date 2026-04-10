@@ -2,16 +2,39 @@
 
 ## Font Setup
 
-macOS Songti.ttc provides 3 useful weights via subfontIndex:
+### Cross-platform font detection
 
 ```python
+import os
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
+def find_cjk_font():
+    """Auto-detect CJK font across platforms."""
+    candidates = [
+        # macOS — Songti.ttc (Black=0, Bold=1, Light=3)
+        ('/System/Library/Fonts/Supplemental/Songti.ttc', 0, 1, 3),
+        # Linux — Noto Sans CJK (Regular=0, Bold=2, Light=4)
+        ('/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc', 0, 2, 4),
+        ('/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc', 0, 2, 4),
+        # Windows — SimSun / Microsoft YaHei
+        ('C:\\Windows\\Fonts\\simsun.ttc', 0, 0, 0),
+        ('C:\\Windows\\Fonts\\msyh.ttc', 0, 1, 0),
+    ]
+    for path, black, bold, light in candidates:
+        if os.path.exists(path):
+            return path, black, bold, light
+    return None, 0, 0, 0
+
+FONT_PATH, _IDX_BLACK, _IDX_BOLD, _IDX_LIGHT = find_cjk_font()
+if not FONT_PATH:
+    print("No CJK font found. Install fonts-noto-cjk (Linux) or update FONT_PATH.")
+    sys.exit(1)
+
 # Font hierarchy: Black > Bold > Light
-pdfmetrics.registerFont(TTFont('Song-Black', '/System/Library/Fonts/Supplemental/Songti.ttc', subfontIndex=0))
-pdfmetrics.registerFont(TTFont('Song-Bold',  '/System/Library/Fonts/Supplemental/Songti.ttc', subfontIndex=1))
-pdfmetrics.registerFont(TTFont('Song-Light', '/System/Library/Fonts/Supplemental/Songti.ttc', subfontIndex=3))
+pdfmetrics.registerFont(TTFont('Song-Black', FONT_PATH, subfontIndex=_IDX_BLACK))
+pdfmetrics.registerFont(TTFont('Song-Bold',  FONT_PATH, subfontIndex=_IDX_BOLD))
+pdfmetrics.registerFont(TTFont('Song-Light', FONT_PATH, subfontIndex=_IDX_LIGHT))
 ```
 
 ### Font usage rules
@@ -106,13 +129,15 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.utils import ImageReader
 import os
 
-MYINFO = os.path.dirname(os.path.abspath(__file__))
-PHOTO = os.path.join(MYINFO, "photo.jpg")
-OUTPUT = os.path.join(MYINFO, "Resume_CN.pdf")
+DIR = os.path.dirname(os.path.abspath(__file__))
+PHOTO = os.path.join(DIR, "photo.jpg")
+OUTPUT = os.path.join(DIR, "Resume_CN.pdf")
 
-pdfmetrics.registerFont(TTFont('Song-Black', '/System/Library/Fonts/Supplemental/Songti.ttc', subfontIndex=0))
-pdfmetrics.registerFont(TTFont('Song-Bold',  '/System/Library/Fonts/Supplemental/Songti.ttc', subfontIndex=1))
-pdfmetrics.registerFont(TTFont('Song-Light', '/System/Library/Fonts/Supplemental/Songti.ttc', subfontIndex=3))
+# Use find_cjk_font() from Font Setup section above
+FONT_PATH, _IDX_BLACK, _IDX_BOLD, _IDX_LIGHT = find_cjk_font()
+pdfmetrics.registerFont(TTFont('Song-Black', FONT_PATH, subfontIndex=_IDX_BLACK))
+pdfmetrics.registerFont(TTFont('Song-Bold',  FONT_PATH, subfontIndex=_IDX_BOLD))
+pdfmetrics.registerFont(TTFont('Song-Light', FONT_PATH, subfontIndex=_IDX_LIGHT))
 
 W, H = A4
 LM = 18 * mm
