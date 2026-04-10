@@ -23,6 +23,52 @@ cp -r resume-builder ~/.claude/skills/resume-builder
 
 Then in any Claude Code session, say "帮我做简历" or "build my resume" to trigger the skill.
 
+## Use with Other AI Models — 其他模型使用教程
+
+Not using Claude Code? This skill works with any AI that can write Python code.
+
+### ChatGPT
+
+1. Open ChatGPT, start a new conversation
+2. Copy the entire content of `SKILL.md` and paste it as your first message, prefixed with: "Follow these instructions to help me build a resume:"
+3. Also copy and paste the relevant `references/` files when needed:
+   - `role-templates.md` — when ChatGPT asks about your target role
+   - `regional-norms.md` — when deciding photo/format for your region
+   - `bullet-writing.md` — when writing bullet points
+4. ChatGPT will follow the 4-phase pipeline and generate Python code
+5. **Copy the generated .py file and run it locally** — ChatGPT's Code Interpreter may not have reportlab installed
+
+### DeepSeek / Kimi / 通义千问 / 豆包
+
+1. 新建对话，把 `SKILL.md` 全文贴进去，开头加一句："请按照以下指令帮我制作简历"
+2. 按需贴入 `references/` 下的文件（角色模板、地区规范、bullet写法等）
+3. 模型会按4阶段流程走：问你信息→组织结构→生成代码→调排版
+4. **生成的 .py 文件需要本地运行**：`pip install reportlab` 然后 `python gen_xx_pdf.py`
+5. 把运行结果（Y值和bottom值）贴回对话，模型会帮你调spacing
+
+### Cursor / Windsurf
+
+1. Copy `SKILL.md` content into `.cursorrules` (Cursor) or `.windsurfrules` (Windsurf)
+2. Copy `references/` folder into your project
+3. Say "帮我做简历" in the AI chat — it will follow the skill pipeline
+
+### Copilot CLI / Gemini CLI
+
+These support skill-like formats natively. Place the files in your project and reference them in your config.
+
+### Key Differences by Platform
+
+| Capability | Claude Code | ChatGPT | DeepSeek/Kimi | Cursor |
+|-----------|------------|---------|---------------|--------|
+| Auto-load skill | Native | Manual paste | Manual paste | Via rules file |
+| Run Python & generate PDF | Direct | Limited (sandbox) | No (local only) | Direct |
+| Iterative spacing tuning | Automatic | Manual copy-paste results | Manual copy-paste results | Semi-auto |
+| Read references/ files | Automatic | Manual paste when needed | Manual paste when needed | Automatic |
+
+**The core value is in the prompt itself** — the 4-phase pipeline, bullet writing rules, role templates, and regional norms work with any model. The difference is automation: Claude Code is fully automatic, others need you to copy-paste between the AI and your terminal.
+
+---
+
 ## Standalone Usage (Without Claude Code)
 
 You can also use the example generators directly:
