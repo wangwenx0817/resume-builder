@@ -232,6 +232,13 @@ entry_gap   = -18
 sub_gap     = -15
 bullet_line = -14
 bullet_gap  = -4
+
+# Extra-loose (very thin resume, <5 entries total):
+section_gap = -28
+entry_gap   = -26
+sub_gap     = -20
+bullet_line = -18
+bullet_gap  = -7
 ```
 
 ### Spacing parameters to tune (in priority order)
@@ -276,6 +283,48 @@ Before delivering:
 - [ ] Consistent formatting (dates aligned right, locations aligned right)
 - [ ] PDF file saved to specified directory
 - [ ] Both .py generator and .pdf output delivered
+
+---
+
+## Bullet Explanation & Dissatisfaction Handling — 交付解释与不满意处理
+
+After delivering the PDF, **explain every bullet's wording choice** to the user.
+Don't just hand over the file — walk through why each word was picked.
+
+### Explanation format
+
+For each bullet, explain:
+1. **What the user told you** → **what you wrote** (show the transformation)
+2. **Why this wording** — e.g., "Assisted in" not "Led" because intern role
+3. **Interview readiness** — can the user speak about this for 2 minutes?
+
+### When user says "太普通了" / "能不能写好看点" / "同学的简历比我的厉害"
+
+**Do NOT inflate.** Instead:
+
+```
+1. Acknowledge the concern — "我理解你觉得不够亮眼"
+2. Explain the honesty principle — every word must survive interview questioning
+3. Ask for MORE DETAILS — dig deeper into what they actually did:
+   - "你做竞品分析的时候，比较了几家公司？"
+   - "你整理的资料最后谁用了？投委会看了吗？"
+   - "会议上你做了什么？记了会议纪要吗？"
+4. Upgrade with real details — turn "collected data" into "benchmarked
+   financial metrics across 5 peer companies" IF they actually did it
+5. Never upgrade without facts — if they can't provide more details,
+   keep the honest version and explain why it's better for interviews
+```
+
+### Verb upgrade ladder (from weakest to strongest)
+
+Only upgrade if the user confirms they did the stronger action:
+
+```
+Assisted → Supported → Contributed to → Conducted → Led
+Collected → Compiled → Analyzed → Benchmarked → Evaluated
+Attended → Participated in → Coordinated → Organized → Managed
+Prepared → Drafted → Developed → Designed → Architected
+```
 
 ---
 
