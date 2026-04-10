@@ -76,6 +76,13 @@ page limit, required personal info, font). **Always check before generating.**
 Read `references/role-templates.md` for 25+ role-specific templates with section
 order and key metrics (SWE, Quant, Marketing, Consulting, Legal, Healthcare, etc.).
 
+**CRITICAL: Check role-templates.md BEFORE writing the Build section of the generator.**
+The section order in the code must match the role template. Common mistakes:
+- Marketing/Sales/Consulting: Experience comes BEFORE Education
+- Academic: Publications come RIGHT AFTER Education
+- Healthcare/Accounting: Certifications come before Experience
+If you put sections in the wrong order, the resume loses its industry-standard flow.
+
 ### Resume anatomy
 
 ```
@@ -171,7 +178,7 @@ class R:
 |--------|----|----|
 | Font | Songti.ttc (Black/Bold/Light) | Helvetica (Bold/Regular/Italic) |
 | Wrapping | Character-level | Word-level |
-| Photo | Yes (top-right) | No |
+| Photo | Yes (top-right) | Only if region requires (JP, DE, KR, AE, CN) |
 | Name | Large Black weight | Large Bold |
 | Dates | Italic not available → Light gray | True italic |
 
@@ -187,11 +194,44 @@ This is the most iterative phase. The algorithm:
 
 ```
 1. Generate PDF, check final Y position
-2. If Y >> bottom (too much whitespace):
-   → Increase spacing: section gaps, entry gaps, bullet line height
-3. If Y < bottom (content overflows):
-   → Decrease spacing: tighten everything uniformly
-4. Repeat until Y is within 5-15pt of bottom margin
+2. Calculate gap: gap = Y - TM
+3. If gap > 60pt (way too much whitespace):
+   → Increase ALL spacing by gap / (num_sections × 3) pt each
+   → Also consider: does the user need MORE content? (add bullets, expand education)
+4. If gap > 15pt (slightly loose):
+   → Increase section gaps by 2-3pt, entry gaps by 1-2pt
+5. If gap is 5-15pt:
+   → Perfect, done
+6. If gap < 0 (overflow):
+   → Decrease all gaps by 1-2pt, apply overflow strategy
+7. Repeat until gap is within 5-15pt
+```
+
+### Recommended starting spacing values
+
+Use these as a baseline, then tune based on Y position:
+
+```python
+# Tight (lots of content):
+section_gap = -6    # self.y -= 6 before section title
+entry_gap   = -14   # self.y -= 14 after entry title
+sub_gap     = -12   # self.y -= 12 after sub
+bullet_line = -11   # self.y -= 11 per bullet line
+bullet_gap  = -1    # self.y -= 1 after last bullet line
+
+# Normal (medium content):
+section_gap = -8
+entry_gap   = -15
+sub_gap     = -13
+bullet_line = -12
+bullet_gap  = -2
+
+# Loose (thin resume, need to fill page):
+section_gap = -12
+entry_gap   = -18
+sub_gap     = -15
+bullet_line = -14
+bullet_gap  = -4
 ```
 
 ### Spacing parameters to tune (in priority order)
